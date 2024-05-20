@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-bgLight dark:bg-gray-900 border-t-2 border-primaryLight mt-auto">
-      <div className="mx-auto w-full max-w-screen-2xl p-4">
+    <footer className="container bg-bgLight dark:bg-gray-900 border-t-2 border-primaryLight mt-auto mx-auto max-w-full px-6 py-4">
+      <div>
         <div className="flex justify-around">
           <div className="text-textLight">
             <h1>Company Name</h1>

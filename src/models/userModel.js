@@ -1,4 +1,3 @@
-import { verify } from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
@@ -16,7 +15,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provided a password"],
   },
-  role: {},
+  role: {
+    type: String,
+    enum: ["User", "Manager"],
+    default: "User",
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   isVerified: {
     type: Boolean,
     default: false,

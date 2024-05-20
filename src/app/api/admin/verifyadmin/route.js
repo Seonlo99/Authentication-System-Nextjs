@@ -8,12 +8,17 @@ connect();
 export async function GET(request) {
   try {
     const userID = await getDataFromToken(request);
+    if (!userID) {
+      return NextResponse.json({ error: error.message }, { status: 401 });
+    }
+
     const user = await User.findById(userID).select("-password");
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 401 });
+    if (user.isAdmin) {
+      return NextResponse.json({ message: "Access Granted", data: user });
+    } else {
+      return NextResponse.json({ error: error.message }, { status: 403 });
     }
-    return NextResponse.json({ message: "User found", user });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
