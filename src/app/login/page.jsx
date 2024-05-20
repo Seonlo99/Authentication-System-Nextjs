@@ -46,8 +46,12 @@ export default function SignupPage() {
     try {
       setIsLoading(true);
       const response = await axios.post("/api/users/login", user);
-      const { username } = response.data;
-      router.push(`/profile/${username}`);
+      const { username, isAdmin } = response.data;
+      if (isAdmin) {
+        router.push(`/admin`);
+      } else {
+        router.push(`/profile/${username}`);
+      }
     } catch (error) {
       toast.error(ERROR_MESSAGE);
     } finally {
@@ -57,13 +61,10 @@ export default function SignupPage() {
 
   return (
     <MainLayout>
-      <div className="flex place-content-center bg-bgLight">
+      <div className="flex flex-1 place-content-center bg-bgLight p-6">
         <div className="flex flex-col align-middle w-2/5 max-w-full h-4/5">
-          {isLoading && (
-            <h1 className="text-center text-primary">Processing...</h1>
-          )}
           <h1 className="text-center mb-6 font-bold text-3xl text-textLight">
-            Login
+            {isLoading ? "Processing..." : "Login"}
           </h1>
           <div className="flex flex-col bg-primaryLight rounded-lg p-6 text-textLight">
             <form onSubmit={handleSubmit(validHandler, invalidHandler)}>

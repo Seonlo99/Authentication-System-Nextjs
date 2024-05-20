@@ -5,12 +5,12 @@ import { Toaster } from "react-hot-toast";
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="flex flex-col mx-auto min-h-screen">
+    <section className="flex flex-col mx-auto min-h-screen">
       <Toaster />
       <Header />
-      <div className="bg-bgLight h-full w-full mt-[73.6px] p-6">{children}</div>
+      <div className="flex flex-1 bg-white min-h-full w-full">{children}</div>
       <Footer />
-    </div>
+    </section>
   );
 };
 

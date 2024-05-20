@@ -1,39 +1,39 @@
 "use client";
+
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MainLayout from "@/components/MainLayout";
 
-export default function UserProfile({ params }) {
+export default function UserProfile() {
   const router = useRouter();
-  const [user, setUser] = useState("nothing");
-  const logout = async () => {
+
+  const clearToken = async () => {
     try {
       await axios.get("/api/users/logout");
-      toast.success("Logout successfully");
       router.push("/login");
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      toast.error(MESSAGES.UNKNOWN_ERROR_MESSAGE);
     }
-  };
-
-  const getUserDetails = async () => {
-    const response = await axios.get("/api/users/user");
-    setUser(response.data.data);
   };
 
   useEffect(() => {
+    const getUserDetails = async () => {
+      try {
+        const response = await axios.get("/api/users/user");
+        const user = response.data.user;
+        router.replace(`/profile/${user.username}`);
+      } catch (error) {
+        console.error(error.message);
+        clearToken();
+      }
+    };
     getUserDetails();
-    if (user && user !== "nothing") {
-      router.push(`/profile/${user.username}`);
-    }
-  }, [user]);
+  }, []);
 
   return (
     <MainLayout>
-      <div className="text-primary h-full text-center">Redirecting...</div>
+      <div className="text-primary h-full text-center p-6">Redirecting...</div>
     </MainLayout>
   );
 }
