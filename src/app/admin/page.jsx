@@ -9,21 +9,14 @@ import { MESSAGES } from "@/constants/messages";
 
 export default function UserProfile({ params }) {
   const router = useRouter();
-  const [selected, setSelected] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-  const VIEW_ACCOUNT = "view";
-
-  const handleClick = (select) => {
-    setSelected(select);
-  };
 
   useEffect(() => {
     const authenticateAdmin = async () => {
       try {
         const response = await axios.get("api/admin/verifyadmin");
         setIsAdmin(true);
-        console.log("authenticated");
       } catch (error) {
         toast.error(MESSAGES.UNKNOWN_ERROR_MESSAGE);
       } finally {
@@ -32,14 +25,6 @@ export default function UserProfile({ params }) {
     };
     authenticateAdmin();
   }, []);
-
-  useEffect(() => {
-    try {
-      console.log(selected);
-    } catch (error) {
-      toast.error(MESSAGES.UNKNOWN_ERROR_MESSAGE);
-    }
-  }, [selected]);
 
   const logout = async () => {
     try {
@@ -52,9 +37,9 @@ export default function UserProfile({ params }) {
   };
 
   return isLoading ? (
-    "Processing"
+    <div>"Processing"</div>
   ) : !isAdmin ? (
-    "ACCESS DENIED"
+    <div>"ACCESS DENIED!"</div>
   ) : (
     <MainLayout>
       <div className="flex-1 flex py-2">
@@ -64,14 +49,9 @@ export default function UserProfile({ params }) {
           </div>
           <div className="flex flex-1 flex-col gap-y-4">
             <button
-              onClick={() => handleClick(VIEW_ACCOUNT)}
+              onClick={() => {}}
               className="text-textLight text-left hover:underline">
               Manage Account
-            </button>
-            <button
-              onClick={() => handleClick("Tab 2")}
-              className="text-textLight text-left hover:underline">
-              Tab 2
             </button>
           </div>
           <div className="bottom-0">
