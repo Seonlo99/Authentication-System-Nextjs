@@ -23,7 +23,6 @@ export async function GET(request) {
       { username: 1, email: 1, role: 1, isVerified: 1 }
     );
 
-    console.log(usersData);
     return NextResponse.json(
       { message: "Data retrived successfully", usersData: usersData },
       { status: 200 }
