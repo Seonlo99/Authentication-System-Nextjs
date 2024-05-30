@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MainLayout from "@/components/MainLayout";
+import { MESSAGES } from "@/constants/messages";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -13,7 +14,6 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const SUCCESS_MESSAGE = "Password has been changed";
-  const FAIL_MESSAGE = "An unknown error has occured";
 
   const {
     register,
@@ -32,11 +32,10 @@ export default function SignupPage() {
     setToken(urlToken || "");
   }, []);
 
-  const password = watch("password");
+  const newPassword = watch("newPassword");
 
   const validHandler = (data) => {
     const { newPassword } = data;
-
     const user = {
       token: token,
       newPassword: newPassword,
@@ -56,18 +55,16 @@ export default function SignupPage() {
       toast.success(SUCCESS_MESSAGE);
       router.push("/login");
     } catch (error) {
-      toast.error(FAIL_MESSAGE);
+      toast.error(MESSAGES.UNKNOWN_ERROR_MESSAGE);
     } finally {
       setIsLoading(false);
     }
   };
 
-  console.log(errors);
-
   return (
     <MainLayout>
-      <div className="flex place-content-center bg-bgLight w-full h-full">
-        <div className="flex flex-col align-middle w-2/5 max-w-full h-4/5 bg-bgLight">
+      <div className="flex place-content-center w-full h-full p-6">
+        <div className="flex flex-col align-middle min-w-72 w-2/5 max-w-full h-4/5">
           {isLoading && (
             <h1 className="text-center text-primary">Processing...</h1>
           )}
@@ -87,8 +84,8 @@ export default function SignupPage() {
                     className="placeholder:text-gray-400 rounded-lg mt-1 px-3 py-2 outline-none"
                     id="newPassword"
                     type="password"
-                    placeholder="Enter password"
-                    {...register("password", {
+                    placeholder="Enter new password"
+                    {...register("newPassword", {
                       required: "Password is required",
                       minLength: {
                         value: 6,
@@ -114,7 +111,7 @@ export default function SignupPage() {
                     {...register("cfmPassword", {
                       required: "Confirm Password is required",
                       validate: (value) => {
-                        if (value !== password) {
+                        if (value !== newPassword) {
                           return "Passwords do not match";
                         }
                       },
