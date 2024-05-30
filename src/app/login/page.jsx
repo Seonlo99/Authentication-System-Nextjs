@@ -61,8 +61,8 @@ export default function SignupPage() {
 
   return (
     <MainLayout>
-      <div className="flex flex-1 place-content-center bg-bgLight p-6">
-        <div className="flex flex-col align-middle  max-w-full h-4/5">
+      <div className="flex flex-1 place-content-center w-full h-full p-6">
+        <div className="flex flex-col align-middle min-w-72 w-2/5 max-w-full h-4/5">
           <h1 className="text-center mb-6 font-bold text-3xl text-textLight">
             {isLoading ? "Processing..." : "Login"}
           </h1>
